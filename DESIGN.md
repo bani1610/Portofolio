@@ -48,7 +48,7 @@ Token ditulis dalam **OKLCH** dan dipasang sebagai CSS variable di `globals.css`
   --muted-foreground:      oklch(0.660 0.012 285);  /* teks sekunder */
 
   --border:                oklch(0.275 0.009 285);  /* garis pemisah */
-  --input:                 oklch(0.275 0.009 285);
+  --input:                 oklch(0.520 0.009 285);  /* lihat §2.4 */
   --ring:                  oklch(0.700 0.150 235);  /* focus ring */
 
   --primary:               oklch(0.700 0.150 235);  /* aksen tunggal */
@@ -76,7 +76,7 @@ Bukan sekadar inversi. Pada light mode, `--card` dibuat **lebih terang** dari ba
   --muted-foreground:      oklch(0.500 0.012 285);
 
   --border:                oklch(0.915 0.004 285);
-  --input:                 oklch(0.915 0.004 285);
+  --input:                 oklch(0.640 0.004 285);  /* lihat §2.4 */
   --ring:                  oklch(0.545 0.170 245);
 
   --primary:               oklch(0.545 0.170 245);
@@ -109,10 +109,20 @@ Target PRD Lighthouse Accessibility ≥ 90 tidak tercapai tanpa ini:
 | `foreground` / `background` | 4.5:1 | Semua teks body |
 | `muted-foreground` / `background` | 4.5:1 | Metadata, tanggal, caption |
 | `primary-foreground` / `primary` | 4.5:1 | Teks di dalam tombol |
-| `border` / `background` | 3:1 | Outline input dan kontrol interaktif |
+| `input` / `background` | 3:1 | Outline input dan kontrol interaktif |
 | `ring` / `background` | 3:1 | Focus indicator |
 
-Nilai di §2.1 dan §2.2 sudah dipilih untuk lolos ambang ini. Setiap kali token warna diubah, verifikasi ulang sebelum merge.
+Verifikasi dijalankan dengan satu perintah, membaca langsung dari `globals.css` sehingga tidak bisa melenceng dari nilai yang sebenarnya dipakai:
+
+```bash
+pnpm check:contrast
+```
+
+Setiap kali token warna diubah, jalankan ulang sebelum merge.
+
+**Koreksi nilai `--input` (revisi 1.1).** Versi awal dokumen ini memberi `--input` nilai yang sama dengan `--border`. Nilai tersebut hanya mencapai **1.33:1** (dark) dan **1.27:1** (light) terhadap background — jauh di bawah ambang 3:1 yang disyaratkan tabel di atas. Karena itu `--input` kini dipisahkan dari `--border` dan dibuat lebih terang.
+
+Pemisahan ini disengaja: `--border` adalah garis dekoratif pada card dan divider, yang justru tidak boleh terlalu menonjol, sementara `--input` menandai kontrol yang dapat diinteraksikan dan wajib terlihat jelas. Keduanya punya tugas berbeda, jadi tidak seharusnya bernilai sama.
 
 ---
 
