@@ -16,6 +16,10 @@ function Switch({
       data-slot="switch"
       data-size={size}
       className={cn(
+        // The track is ~18px tall, well under the 44px touch minimum
+        // (DESIGN.md 12). The pseudo-element extends the hit area to meet
+        // it on touch devices without changing how large the switch looks.
+        "relative pointer-coarse:before:absolute pointer-coarse:before:-inset-x-3 pointer-coarse:before:-inset-y-4 pointer-coarse:before:content-['']",
         'peer group/switch focus-visible:border-ring focus-visible:ring-ring/50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input inline-flex shrink-0 items-center rounded-full border border-transparent shadow-xs transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-[1.15rem] data-[size=default]:w-8 data-[size=sm]:h-3.5 data-[size=sm]:w-6',
         className,
       )}

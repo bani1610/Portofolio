@@ -10,8 +10,10 @@ const badgeVariants = cva(
       variant: {
         default: 'bg-primary text-primary-foreground [a&]:hover:bg-primary/90',
         secondary: 'bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90',
+        // text-destructive-foreground, not text-white: on the dark theme's
+        // red, white measures 3.28:1 and fails AA (DESIGN.md 13).
         destructive:
-          'bg-destructive text-white focus-visible:ring-destructive/20 [a&]:hover:bg-destructive/90',
+          'bg-destructive text-destructive-foreground focus-visible:ring-destructive/20 [a&]:hover:bg-destructive/90',
         outline:
           'border-border text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground',
         ghost: '[a&]:hover:bg-accent [a&]:hover:text-accent-foreground',

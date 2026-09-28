@@ -42,3 +42,24 @@ export function formatDateRange(
   const to = formatMonthYear(end);
   return to ? `${from} - ${to}` : from;
 }
+
+/**
+ * Formats a timestamp for the admin inbox.
+ *
+ * The timezone is pinned, like MONTH_YEAR above. Without it the server
+ * formats in UTC and the browser in the visitor's zone, so the two render
+ * different text and hydration fails. Pinning to WIB is honest for this
+ * portfolio: the only person reading the inbox is its owner.
+ */
+const DATE_TIME = new Intl.DateTimeFormat('id-ID', {
+  dateStyle: 'medium',
+  timeStyle: 'short',
+  timeZone: 'Asia/Jakarta',
+});
+
+export function formatDateTime(value: string | Date | null): string {
+  if (!value) return '';
+  const date = typeof value === 'string' ? new Date(value) : value;
+  if (Number.isNaN(date.getTime())) return '';
+  return DATE_TIME.format(date);
+}

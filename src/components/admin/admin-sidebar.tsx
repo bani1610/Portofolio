@@ -32,6 +32,28 @@ export const adminNavItems = [
   { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 
+/**
+ * Grouped rather than one flat list of eleven: content the admin edits
+ * often, the site's own identity, and the inbox are different kinds of
+ * work, and a flat list makes you re-read all eleven to find any one.
+ */
+const NAV_GROUPS = [
+  { label: null, items: ['/admin'] },
+  {
+    label: 'Konten',
+    items: [
+      '/admin/projects',
+      '/admin/experiences',
+      '/admin/skills',
+      '/admin/certificates',
+      '/admin/education',
+      '/admin/achievements',
+    ],
+  },
+  { label: 'Situs', items: ['/admin/profile', '/admin/social-links', '/admin/settings'] },
+  { label: 'Masuk', items: ['/admin/messages'] },
+] as const;
+
 type AdminSidebarProps = {
   onItemClick?: () => void;
 };
@@ -45,7 +67,7 @@ export function AdminSidebar({ onItemClick }: AdminSidebarProps) {
       <div className="flex h-14 items-center justify-between border-b border-border px-5">
         <Link
           href="/admin"
-          className="flex items-center gap-2 font-mono text-sm font-semibold tracking-tight text-foreground"
+          className="text-foreground flex items-center gap-2 font-mono text-sm font-semibold tracking-tight pointer-coarse:min-h-11"
         >
           <span className="text-primary font-bold">#</span>
           <span>CMS Admin</span>
@@ -54,39 +76,55 @@ export function AdminSidebar({ onItemClick }: AdminSidebarProps) {
           href="/"
           target="_blank"
           aria-label="Preview public website"
-          className="rounded p-1 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+          className="text-muted-foreground hover:bg-muted hover:text-foreground inline-flex items-center justify-center rounded p-1 transition-colors pointer-coarse:size-11"
           title="Buka Website Publik"
         >
           <ExternalLink className="h-4 w-4" />
         </Link>
       </div>
 
-      {/* Nav List */}
-      <nav className="flex-1 overflow-y-auto p-3 space-y-1">
-        {adminNavItems.map((item) => {
-          const isActive = item.exact
-            ? pathname === item.href
-            : pathname.startsWith(item.href);
+      <nav className="flex-1 space-y-4 overflow-y-auto p-3">
+        {NAV_GROUPS.map((group, groupIndex) => (
+          <div key={group.label ?? groupIndex} className="space-y-0.5">
+            {group.label && (
+              <p className="text-muted-foreground/70 px-3 pt-2 pb-1 text-[11px] font-medium tracking-wide uppercase">
+                {group.label}
+              </p>
+            )}
 
-          const Icon = item.icon;
+            {group.items.map((href) => {
+              const item = adminNavItems.find((navItem) => navItem.href === href);
+              if (!item) return null;
 
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={onItemClick}
-              className={cn(
-                'relative flex items-center gap-3 rounded-md px-3 py-2 text-xs font-medium transition-colors',
-                isActive
-                  ? 'bg-muted text-foreground font-semibold before:absolute before:left-0 before:top-1.5 before:bottom-1.5 before:w-1 before:rounded-r before:bg-primary'
-                  : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground'
-              )}
-            >
-              <Icon className={cn('h-4 w-4', isActive ? 'text-primary' : 'text-muted-foreground')} />
-              <span>{item.label}</span>
-            </Link>
-          );
-        })}
+              const isActive = item.exact
+                ? pathname === item.href
+                : pathname.startsWith(item.href);
+              const Icon = item.icon;
+
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={onItemClick}
+                  aria-current={isActive ? 'page' : undefined}
+                  className={cn(
+                    'flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors',
+                    'pointer-coarse:min-h-11',
+                    isActive
+                      ? 'bg-muted text-foreground font-medium'
+                      : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground',
+                  )}
+                >
+                  <Icon
+                    className={cn('h-4 w-4 shrink-0', isActive && 'text-primary')}
+                    aria-hidden="true"
+                  />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+        ))}
       </nav>
 
       {/* Footer Info */}

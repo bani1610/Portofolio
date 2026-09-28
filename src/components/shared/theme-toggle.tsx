@@ -1,5 +1,6 @@
 'use client';
 
+import * as React from 'react';
 import { Monitor, Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -24,7 +25,29 @@ const OPTIONS: Option[] = [
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
-  const active = OPTIONS.find((option) => option.value === theme) ?? DARK;
+
+  /**
+   * The rendered icon depends on localStorage, which the server cannot
+   * read: it always renders the dark default while the browser may hold
+   * 'light' or 'system'. React compares the two during hydration and
+   * reports a mismatch.
+   *
+   * suppressHydrationWarning does not help here, since it covers only the
+   * element it sits on, not the subtree. So the server and the first
+   * client render agree on the default, and the stored choice is applied
+   * once mounted. ThemeScript has already set the actual colours before
+   * paint, so nothing flashes while this settles.
+   */
+  // The one case this rule cannot express: "has hydration finished". The
+  // value must differ between the server render and the mounted client,
+  // and an effect running once after mount is how React reports that.
+  const [mounted, setMounted] = React.useState(false);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  React.useEffect(() => setMounted(true), []);
+
+  const active = mounted
+    ? (OPTIONS.find((option) => option.value === theme) ?? DARK)
+    : DARK;
   const ActiveIcon = active.icon;
 
   return (
@@ -46,7 +69,7 @@ export function ThemeToggle() {
           <DropdownMenuItem
             key={value}
             onSelect={() => setTheme(value)}
-            data-active={theme === value}
+            data-active={mounted && theme === value}
             className="data-[active=true]:text-primary"
           >
             <Icon aria-hidden="true" />
