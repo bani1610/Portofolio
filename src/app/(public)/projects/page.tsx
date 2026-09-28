@@ -17,6 +17,7 @@ export default async function ProjectsPage() {
     <div className="py-12 md:py-16 lg:py-20">
       <Container>
         <SectionHeader
+          as="h1"
           index="PROJ"
           label="PORTFOLIO"
           title="Semua Project"

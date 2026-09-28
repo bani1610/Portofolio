@@ -8,19 +8,41 @@ import type { Tables } from '@/lib/supabase/types';
 
 type EducationSectionProps = {
   education: Tables<'education'>[];
+  /** False on /education, where the page supplies its own heading. */
+  showHeader?: boolean;
 };
 
-export function EducationSection({ education }: EducationSectionProps) {
-  if (education.length === 0) return null;
+export function EducationSection({
+  education,
+  showHeader = true,
+}: EducationSectionProps) {
+  // On the homepage an empty section is simply dropped; the dedicated page
+  // must still render something, so it says so rather than going blank.
+  if (education.length === 0 && showHeader) return null;
 
   return (
     <Section id="education" className="border-t border-border/40">
-      <SectionHeader
-        index="06"
-        label="EDUCATION"
-        title="Latar Belakang Pendidikan"
-        description="Pendidikan formal yang membentuk landasan berpikir analitis dan fondasi ilmu komputer saya."
-      />
+      {showHeader && (
+        <SectionHeader
+          index="06"
+          label="EDUCATION"
+          title="Latar Belakang Pendidikan"
+          description="Pendidikan formal yang membentuk landasan berpikir analitis dan fondasi ilmu komputer saya."
+        />
+      )}
+
+      {education.length === 0 && (
+        <div className="border-border flex flex-col items-center justify-center rounded-xl border border-dashed p-12 text-center">
+          <GraduationCap className="text-muted-foreground/60 mb-3 h-10 w-10" />
+          <h3 className="text-foreground text-base font-semibold">
+            Riwayat pendidikan sedang disiapkan
+          </h3>
+          <p className="text-muted-foreground mt-1 max-w-[42ch] text-sm">
+            Entri pendidikan tersimpan sebagai draft dan akan tampil setelah
+            di-publish melalui admin panel.
+          </p>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {education.map((edu) => {

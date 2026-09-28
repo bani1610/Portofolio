@@ -6,6 +6,7 @@ import {
   getVisibleTechnologies,
   getPublishedCertificates,
   getPublishedEducation,
+  getPublishedAchievements,
   getVisibleSocialLinks,
 } from '@/lib/queries';
 import { HeroSection } from '@/components/public/hero-section';
@@ -15,7 +16,9 @@ import { ExperienceSection } from '@/components/public/experience-section';
 import { SkillsSection } from '@/components/public/skills-section';
 import { CertificatesSection } from '@/components/public/certificates-section';
 import { EducationSection } from '@/components/public/education-section';
+import { AchievementsSection } from '@/components/public/achievements-section';
 import { ContactSection } from '@/components/public/contact-section';
+import { Reveal } from '@/components/shared/reveal';
 
 export default async function HomePage() {
   const [
@@ -26,6 +29,7 @@ export default async function HomePage() {
     technologies,
     certificates,
     education,
+    achievements,
     socialLinks,
   ] = await Promise.all([
     getProfile(),
@@ -35,6 +39,7 @@ export default async function HomePage() {
     getVisibleTechnologies(),
     getPublishedCertificates(),
     getPublishedEducation(),
+    getPublishedAchievements(),
     getVisibleSocialLinks(),
   ]);
 
@@ -46,14 +51,35 @@ export default async function HomePage() {
 
   return (
     <>
+      {/* The hero is deliberately not wrapped in Reveal: it holds the LCP
+          element and must be readable in the first frame (DESIGN.md 9). */}
       <HeroSection profile={profile} socialLinks={socialLinks} />
-      <AboutSection profile={profile} education={education} />
-      <FeaturedProjectsSection projects={displayProjects} />
-      <ExperienceSection experiences={experiences} />
-      <SkillsSection technologies={technologies} />
-      <CertificatesSection certificates={certificates} />
-      <EducationSection education={education} />
-      <ContactSection profile={profile} />
+
+      <Reveal>
+        <AboutSection profile={profile} education={education} />
+      </Reveal>
+      <Reveal>
+        <FeaturedProjectsSection projects={displayProjects} limit={3} />
+      </Reveal>
+      <Reveal>
+        <ExperienceSection experiences={experiences} limit={3} />
+      </Reveal>
+      <Reveal>
+        <SkillsSection technologies={technologies} />
+      </Reveal>
+      <Reveal>
+        <CertificatesSection certificates={certificates} limit={3} />
+      </Reveal>
+      <Reveal>
+        <EducationSection education={education} />
+      </Reveal>
+      <Reveal>
+        {/* Renders itself only from two items up (PRD 16). */}
+        <AchievementsSection achievements={achievements} />
+      </Reveal>
+      <Reveal>
+        <ContactSection profile={profile} />
+      </Reveal>
     </>
   );
 }

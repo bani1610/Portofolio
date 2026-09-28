@@ -6,13 +6,16 @@ import type { Tables } from '@/lib/supabase/types';
 
 type ContactSectionProps = {
   profile?: Tables<'profiles'> | null;
+  /** 'h1' on /contact, where this section is the whole page. */
+  as?: 'h1' | 'h2';
 };
 
-export function ContactSection({ profile }: ContactSectionProps) {
+export function ContactSection({ profile, as }: ContactSectionProps) {
   return (
     <Section id="contact" className="border-t border-border/40">
       <SectionHeader
-        index="07"
+        as={as}
+        index="08"
         label="CONTACT"
         title="Mari Terhubung"
         description="Punya pertanyaan, tawaran proyek, atau ingin berdiskusi? Jangan ragu untuk mengirim pesan."

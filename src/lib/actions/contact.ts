@@ -1,7 +1,34 @@
 'use server';
 
+import { headers } from 'next/headers';
 import { contactFormSchema, type ContactFormData } from '@/lib/validations/contact';
 import { createPublicClient } from '@/lib/supabase/public';
+import { checkRateLimit } from '@/lib/utils/rate-limit';
+
+/** Five messages an hour from one address: generous for a person, tedious
+ *  for a script (PRD 17). */
+const RATE_LIMIT = 5;
+const RATE_WINDOW_MS = 60 * 60 * 1000;
+
+/**
+ * Best-effort client address.
+ *
+ * x-forwarded-for is client-supplied and therefore spoofable in general,
+ * but on Vercel the proxy appends the real address as the last entry, so
+ * that is the one taken. Falling back to a shared bucket when no header is
+ * present is deliberate: it throttles rather than waving the request
+ * through.
+ */
+async function clientKey(): Promise<string> {
+  const headerList = await headers();
+  const forwarded = headerList.get('x-forwarded-for');
+  if (forwarded) {
+    const parts = forwarded.split(',');
+    const last = parts[parts.length - 1]?.trim();
+    if (last) return last;
+  }
+  return headerList.get('x-real-ip')?.trim() || 'unknown';
+}
 
 export type ContactActionResult = {
   success: boolean;
@@ -28,6 +55,22 @@ export async function submitContactMessage(
     return {
       success: false,
       message: 'Pengiriman pesan ditolak.',
+    };
+  }
+
+  // Checked after validation so a malformed flood cannot burn a real
+  // visitor's allowance, and before the insert so it actually saves work.
+  const limit = checkRateLimit(
+    `contact:${await clientKey()}`,
+    RATE_LIMIT,
+    RATE_WINDOW_MS,
+  );
+
+  if (!limit.allowed) {
+    const minutes = Math.max(1, Math.ceil(limit.retryAfter / 60));
+    return {
+      success: false,
+      message: `Terlalu banyak pesan terkirim. Silakan coba lagi dalam ${minutes} menit.`,
     };
   }
 

@@ -11,13 +11,18 @@ import type { Tables } from '@/lib/supabase/types';
 type CertificatesSectionProps = {
   certificates: Tables<'certificates'>[];
   showAllLink?: boolean;
+  /** Homepage shows a teaser; a dedicated page passes no limit. */
+  limit?: number;
 };
 
 export function CertificatesSection({
   certificates,
   showAllLink = true,
+  limit,
 }: CertificatesSectionProps) {
   if (certificates.length === 0) return null;
+
+  const visible = limit ? certificates.slice(0, limit) : certificates;
 
   return (
     <Section id="certificates" className="border-t border-border/40">
@@ -43,7 +48,7 @@ export function CertificatesSection({
       </div>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {certificates.slice(0, 3).map((cert) => {
+        {visible.map((cert) => {
           const targetUrl = cert.credential_url || cert.certificate_file;
           const issueDateFormatted = formatMonthYear(cert.issue_date);
 

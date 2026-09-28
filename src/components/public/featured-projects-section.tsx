@@ -8,9 +8,16 @@ import type { ProjectWithDetails } from '@/lib/queries/projects';
 
 type FeaturedProjectsSectionProps = {
   projects: ProjectWithDetails[];
+  /** Homepage shows a teaser; a dedicated page passes no limit. */
+  limit?: number;
 };
 
-export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionProps) {
+export function FeaturedProjectsSection({
+  projects,
+  limit,
+}: FeaturedProjectsSectionProps) {
+  const visible = limit ? projects.slice(0, limit) : projects;
+
   return (
     <Section id="projects" className="border-t border-border/40">
       <div className="flex flex-col justify-between sm:flex-row sm:items-end">
@@ -32,9 +39,9 @@ export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionPro
         </div>
       </div>
 
-      {projects.length > 0 ? (
+      {visible.length > 0 ? (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.slice(0, 3).map((project) => (
+          {visible.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>

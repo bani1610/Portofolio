@@ -17,6 +17,7 @@ export default async function SkillsPage() {
     <div className="py-12 md:py-16">
       <Container>
         <SectionHeader
+          as="h1"
           index="SKL"
           label="EXPERTISE"
           title="Keahlian & Perkakas Teknis"

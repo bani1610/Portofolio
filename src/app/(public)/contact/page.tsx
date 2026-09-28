@@ -15,7 +15,7 @@ export default async function ContactPage() {
   return (
     <div className="py-12 md:py-16">
       <Container>
-        <ContactSection profile={profile} />
+        <ContactSection profile={profile} as="h1" />
       </Container>
     </div>
   );

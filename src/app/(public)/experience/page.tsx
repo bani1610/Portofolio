@@ -17,6 +17,7 @@ export default async function ExperiencePage() {
     <div className="py-12 md:py-16">
       <Container>
         <SectionHeader
+          as="h1"
           index="EXP"
           label="CAREER"
           title="Pengalaman Kerja"

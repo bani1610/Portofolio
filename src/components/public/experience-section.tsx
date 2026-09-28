@@ -11,12 +11,17 @@ import type { Tables } from '@/lib/supabase/types';
 type ExperienceSectionProps = {
   experiences: Tables<'experiences'>[];
   showAllLink?: boolean;
+  /** Homepage shows a teaser; a dedicated page passes no limit. */
+  limit?: number;
 };
 
 export function ExperienceSection({
   experiences,
   showAllLink = true,
+  limit,
 }: ExperienceSectionProps) {
+  const visible = limit ? experiences.slice(0, limit) : experiences;
+
   return (
     <Section id="experience" className="border-t border-border/40">
       <div className="flex flex-col justify-between sm:flex-row sm:items-end">
@@ -40,9 +45,9 @@ export function ExperienceSection({
         )}
       </div>
 
-      {experiences.length > 0 ? (
+      {visible.length > 0 ? (
         <div className="relative pl-6 md:pl-8 border-l border-border space-y-12">
-          {experiences.slice(0, 3).map((item) => {
+          {visible.map((item) => {
             const dateText = formatDateRange(
               item.start_date,
               item.end_date,

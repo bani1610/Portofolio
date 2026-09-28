@@ -23,6 +23,8 @@ export default async function AdminDashboardPage() {
     { data: experiences },
     { data: technologies },
     { data: messages },
+    { count: totalMessages },
+    { count: unreadMessages },
   ] = await Promise.all([
     supabase.from('projects').select('id, title, published, featured, updated_at'),
     supabase.from('experiences').select('id, published'),
@@ -32,6 +34,15 @@ export default async function AdminDashboardPage() {
       .select('id, name, email, subject, read, created_at')
       .order('created_at', { ascending: false })
       .limit(5),
+    // Counted server-side rather than measured from the list above, which
+    // is capped at 5 and would report 5 however many messages exist.
+    supabase
+      .from('contact_messages')
+      .select('id', { count: 'exact', head: true }),
+    supabase
+      .from('contact_messages')
+      .select('id', { count: 'exact', head: true })
+      .eq('read', false),
   ]);
 
   const totalProjects = projects?.length ?? 0;
@@ -42,7 +53,8 @@ export default async function AdminDashboardPage() {
 
   const totalSkills = technologies?.length ?? 0;
 
-  const unreadMessagesCount = messages?.filter((m) => !m.read).length ?? 0;
+  const totalMessagesCount = totalMessages ?? 0;
+  const unreadMessagesCount = unreadMessages ?? 0;
 
   return (
     <div className="space-y-8">
@@ -138,7 +150,7 @@ export default async function AdminDashboardPage() {
               <Mail className="h-4 w-4 text-primary" />
             </div>
             <div className="mt-3 text-3xl font-semibold tabular-nums text-foreground">
-              {messages?.length ?? 0}
+              {totalMessagesCount}
             </div>
             <p className="mt-1 text-xs text-muted-foreground">
               {unreadMessagesCount} belum dibaca

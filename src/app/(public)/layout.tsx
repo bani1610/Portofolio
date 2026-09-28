@@ -16,7 +16,7 @@ export default async function PublicLayout({
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground transition-colors selection:bg-primary/20 selection:text-primary">
       <SkipLink />
-      <PublicNavbar />
+      <PublicNavbar resumeUrl={profile?.resume_url} />
       <main id="main-content" className="flex-1 focus:outline-none">
         {children}
       </main>

@@ -17,6 +17,7 @@ export default async function CertificatesPage() {
     <div className="py-12 md:py-16">
       <Container>
         <SectionHeader
+          as="h1"
           index="CERT"
           label="CREDENTIALS"
           title="Sertifikasi & Lisensi"

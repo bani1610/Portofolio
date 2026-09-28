@@ -6,19 +6,27 @@ import type { Tables } from '@/lib/supabase/types';
 type AboutSectionProps = {
   profile?: Tables<'profiles'> | null;
   education?: Tables<'education'>[];
+  /** False on /about, where the page supplies its own heading. */
+  showHeader?: boolean;
 };
 
-export function AboutSection({ profile, education = [] }: AboutSectionProps) {
+export function AboutSection({
+  profile,
+  education = [],
+  showHeader = true,
+}: AboutSectionProps) {
   const latestEdu = education[0];
 
   return (
     <Section id="about" className="border-t border-border/40">
-      <SectionHeader
-        index="01"
-        label="ABOUT ME"
-        title="Sekilas Tentang Saya"
-        description="Fokus saya adalah menciptakan pengalaman web yang terstruktur, cepat, dan mudah diakses."
-      />
+      {showHeader && (
+        <SectionHeader
+          index="01"
+          label="ABOUT ME"
+          title="Sekilas Tentang Saya"
+          description="Fokus saya adalah menciptakan pengalaman web yang terstruktur, cepat, dan mudah diakses."
+        />
+      )}
 
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16">
         {/* Left Column: Story & Philosophy */}

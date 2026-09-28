@@ -6,6 +6,12 @@ type SectionHeaderProps = {
   label: string;
   title: string;
   description?: string;
+  /**
+   * 'h1' when this header is the page's own title, which every standalone
+   * page needs exactly one of (DESIGN.md 13). Sections stacked on the
+   * homepage stay at the default 'h2' so the outline keeps descending.
+   */
+  as?: 'h1' | 'h2';
   className?: string;
 };
 
@@ -20,6 +26,7 @@ export function SectionHeader({
   label,
   title,
   description,
+  as: Heading = 'h2',
   className,
 }: SectionHeaderProps) {
   return (
@@ -28,9 +35,9 @@ export function SectionHeader({
         {index ? `${index} — ` : null}
         {label}
       </p>
-      <h2 className="text-foreground mt-3 text-2xl font-semibold tracking-[-0.01em] md:text-[32px]">
+      <Heading className="text-foreground mt-3 text-2xl font-semibold tracking-[-0.01em] md:text-[32px]">
         {title}
-      </h2>
+      </Heading>
       {description ? (
         <p className="text-muted-foreground mt-4 max-w-[60ch] text-[15px] leading-relaxed md:text-base">
           {description}
