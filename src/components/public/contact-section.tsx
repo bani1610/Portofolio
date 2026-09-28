@@ -69,7 +69,7 @@ export function ContactSection({ profile }: ContactSectionProps) {
               </div>
               <div>
                 <div className="font-mono text-xs text-muted-foreground">Status Ketersediaan</div>
-                <div className="text-sm font-medium text-emerald-500">
+                <div className="text-primary text-sm font-medium">
                   Open for new opportunities
                 </div>
               </div>

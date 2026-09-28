@@ -22,10 +22,16 @@ export function PublicNavbar() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
-  // Close mobile menu on route change
-  React.useEffect(() => {
+  // Close the drawer on route change, including browser back/forward.
+  // Adjusting state during render rather than in an effect: an effect
+  // would paint the new route with the drawer still open, then close it
+  // on a second pass. React re-runs this component immediately instead,
+  // before anything reaches the screen.
+  const [drawerPathname, setDrawerPathname] = React.useState(pathname);
+  if (pathname !== drawerPathname) {
+    setDrawerPathname(pathname);
     setMobileMenuOpen(false);
-  }, [pathname]);
+  }
 
   // Prevent background scroll when mobile menu is open
   React.useEffect(() => {

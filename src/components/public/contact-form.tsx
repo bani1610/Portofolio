@@ -53,7 +53,7 @@ export function ContactForm() {
           className={cn(
             'flex items-start gap-3 rounded-lg p-4 text-sm leading-relaxed border',
             serverStatus.success
-              ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+              ? 'border-primary/30 bg-primary/10 text-primary'
               : 'border-destructive/30 bg-destructive/10 text-destructive'
           )}
         >

@@ -34,8 +34,8 @@ export function HeroSection({ profile, socialLinks = [] }: HeroSectionProps) {
           <div className="flex-1 text-center lg:text-left">
             <div className="inline-flex items-center gap-2 rounded-full border border-border bg-muted/60 px-3 py-1 text-xs font-mono text-muted-foreground mb-6">
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+                <span className="bg-primary absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"></span>
+                <span className="bg-primary relative inline-flex h-2 w-2 rounded-full"></span>
               </span>
               <span>Available for opportunities</span>
             </div>
