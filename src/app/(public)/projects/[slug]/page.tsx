@@ -42,7 +42,7 @@ export async function generateMetadata({
 }: ProjectPageProps): Promise<Metadata> {
   const { slug } = await params;
   if (slug === '_placeholder') {
-    return { title: 'Project — Sholahuddin Robbani' };
+    return { title: 'Project · Sholahuddin Robbani' };
   }
   const project = await getProjectBySlug(slug);
 
@@ -53,12 +53,12 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${project.title} — Sholahuddin Robbani`,
+    title: `${project.title} · Sholahuddin Robbani`,
     description:
       project.short_description ||
       `Detail pengerjaan dan teknologi yang digunakan pada proyek ${project.title}.`,
     openGraph: {
-      title: `${project.title} — Sholahuddin Robbani`,
+      title: `${project.title} · Sholahuddin Robbani`,
       description: project.short_description || undefined,
       images: project.cover_image ? [{ url: project.cover_image }] : undefined,
     },
@@ -150,7 +150,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
       {/* Cover Image — Can expand up to 1024px */}
       {project.cover_image && (
         <div className="my-10 max-w-[1024px] mx-auto px-4 md:px-6">
-          <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-border bg-muted shadow-lg">
+          <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-border bg-muted">
             <Image
               src={project.cover_image}
               alt={project.title}

@@ -5,6 +5,12 @@ import { cn } from '@/lib/utils';
 
 type RevealProps = {
   className?: string;
+  /**
+   * Staggers direct children instead of revealing the block as one:
+   * 'cards' steps 50ms up to 5 items, 'rows' steps 60ms up to 4
+   * (DESIGN.md 9). Items past the cap share the last delay.
+   */
+  stagger?: 'cards' | 'rows';
   children: React.ReactNode;
 };
 
@@ -23,7 +29,7 @@ type RevealProps = {
  * resolves to the finished state. Nothing here needs to check the media
  * query, and an element is never left invisible if the observer never runs.
  */
-export function Reveal({ className, children }: RevealProps) {
+export function Reveal({ className, stagger, children }: RevealProps) {
   const ref = React.useRef<HTMLDivElement>(null);
   const [revealed, setRevealed] = React.useState(false);
 
@@ -56,7 +62,16 @@ export function Reveal({ className, children }: RevealProps) {
   }, [revealed]);
 
   return (
-    <div ref={ref} className={cn('reveal', className)} data-revealed={revealed}>
+    <div
+      ref={ref}
+      className={cn(
+        'reveal',
+        stagger === 'cards' && 'stagger-cards',
+        stagger === 'rows' && 'stagger-rows',
+        className,
+      )}
+      data-revealed={revealed}
+    >
       {children}
     </div>
   );

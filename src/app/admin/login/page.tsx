@@ -46,7 +46,7 @@ function LoginForm() {
           <span className="font-mono text-xs text-muted-foreground">Admin Portal</span>
         </div>
 
-        <Card className="rounded-xl border border-border bg-card p-6 shadow-xl sm:p-8">
+        <Card className="rounded-xl border border-border bg-card p-6 sm:p-8">
           <div className="mb-6 flex flex-col items-center text-center">
             <div className="mb-3 rounded-full bg-primary/10 p-3 text-primary">
               <Lock className="h-6 w-6" />

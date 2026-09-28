@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ArrowRight, FolderKanban } from 'lucide-react';
+import { Reveal } from '@/components/shared/reveal';
 import { Section } from '@/components/layout/section';
 import { SectionHeader } from '@/components/layout/section-header';
 import { ProjectCard } from './project-card';
@@ -19,7 +20,7 @@ export function FeaturedProjectsSection({
   const visible = limit ? projects.slice(0, limit) : projects;
 
   return (
-    <Section id="projects" className="border-t border-border/40">
+    <Section id="projects" spacing="loose">
       <div className="flex flex-col justify-between sm:flex-row sm:items-end">
         <SectionHeader
           index="02"
@@ -40,18 +41,30 @@ export function FeaturedProjectsSection({
       </div>
 
       {visible.length > 0 ? (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <Reveal
+          stagger="cards"
+          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+        >
           {visible.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
-        </div>
+        </Reveal>
       ) : (
         <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border p-12 text-center">
-          <FolderKanban className="h-10 w-10 text-muted-foreground/60 mb-3" />
-          <h3 className="text-base font-semibold text-foreground">Project sedang disiapkan</h3>
-          <p className="mt-1 text-sm text-muted-foreground max-w-[42ch]">
-            Konten project baru saja di-seed sebagai draft di database dan siap untuk di-publish melalui dashboard admin.
+          <FolderKanban
+            className="text-muted-foreground/60 mb-3 h-10 w-10"
+            aria-hidden="true"
+          />
+          <h3 className="text-foreground text-base font-semibold">
+            Belum ada project yang ditampilkan
+          </h3>
+          <p className="text-muted-foreground mt-1 max-w-[42ch] text-sm">
+            Sementara ini, keahlian teknis dan pengalaman saya bisa dilihat di
+            bagian lain halaman ini.
           </p>
+          <Button asChild variant="outline" size="sm" className="mt-4">
+            <Link href="/#skills">Lihat keahlian teknis</Link>
+          </Button>
         </div>
       )}
 

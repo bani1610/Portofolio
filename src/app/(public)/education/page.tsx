@@ -5,7 +5,7 @@ import { EducationSection } from '@/components/public/education-section';
 import { getPublishedEducation } from '@/lib/queries';
 
 export const metadata: Metadata = {
-  title: 'Education — Sholahuddin Robbani',
+  title: 'Education · Sholahuddin Robbani',
   description:
     'Riwayat pendidikan formal yang menjadi landasan kompetensi teknis saya.',
 };

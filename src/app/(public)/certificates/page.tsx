@@ -5,7 +5,7 @@ import { CertificatesSection } from '@/components/public/certificates-section';
 import { getPublishedCertificates } from '@/lib/queries';
 
 export const metadata: Metadata = {
-  title: 'Certificates — Sholahuddin Robbani',
+  title: 'Certificates · Sholahuddin Robbani',
   description:
     'Sertifikasi profesional dan lisensi kompetensi rekayasa perangkat lunak.',
 };

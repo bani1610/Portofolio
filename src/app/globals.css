@@ -172,11 +172,76 @@
     transition:
       opacity 400ms var(--ease-in-expo),
       transform 400ms var(--ease-in-expo);
+    /* Set per item by the stagger helpers below; 0 unless overridden. */
+    transition-delay: var(--reveal-delay, 0ms);
   }
 
   .reveal[data-revealed='true'] {
     opacity: 1;
     transform: none;
+  }
+
+  /* Stagger (DESIGN.md 9, revision 1.2).
+     The children are what animate here, not the wrapper: each one starts
+     hidden and is released when the wrapper is revealed, offset by its own
+     delay. The nth-child caps are the point: without them the last card of
+     a long list waits so long that the page reads as slow rather than
+     animated. Items past the cap share the final delay and arrive together. */
+  .stagger-cards,
+  .stagger-rows {
+    opacity: 1;
+    transform: none;
+  }
+
+  .stagger-cards > *,
+  .stagger-rows > * {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 400ms var(--ease-in-expo),
+      transform 400ms var(--ease-in-expo);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .stagger-cards[data-revealed='true'] > *,
+  .stagger-rows[data-revealed='true'] > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  .stagger-cards > * {
+    --reveal-delay: 250ms;
+  }
+  .stagger-cards > *:nth-child(1) {
+    --reveal-delay: 0ms;
+  }
+  .stagger-cards > *:nth-child(2) {
+    --reveal-delay: 50ms;
+  }
+  .stagger-cards > *:nth-child(3) {
+    --reveal-delay: 100ms;
+  }
+  .stagger-cards > *:nth-child(4) {
+    --reveal-delay: 150ms;
+  }
+  .stagger-cards > *:nth-child(5) {
+    --reveal-delay: 200ms;
+  }
+
+  .stagger-rows > * {
+    --reveal-delay: 240ms;
+  }
+  .stagger-rows > *:nth-child(1) {
+    --reveal-delay: 0ms;
+  }
+  .stagger-rows > *:nth-child(2) {
+    --reveal-delay: 60ms;
+  }
+  .stagger-rows > *:nth-child(3) {
+    --reveal-delay: 120ms;
+  }
+  .stagger-rows > *:nth-child(4) {
+    --reveal-delay: 180ms;
   }
 }
 
@@ -193,6 +258,16 @@
      forever: the transition is disabled, not the starting state
      (DESIGN.md §9). */
   .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Zeroing the duration is not enough: a 250ms delay would still hold the
+     element back before it appears. The children carry the animation in a
+     stagger, so they need the finished state applied directly. */
+  .stagger-cards > *,
+  .stagger-rows > * {
+    --reveal-delay: 0ms;
     opacity: 1;
     transform: none;
   }

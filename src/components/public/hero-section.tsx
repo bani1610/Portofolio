@@ -32,19 +32,15 @@ export function HeroSection({ profile, socialLinks = [] }: HeroSectionProps) {
         <div className="flex flex-col-reverse items-center justify-between gap-12 lg:flex-row lg:gap-16">
           {/* Left Text Column */}
           <div className="flex-1 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-muted/60 px-3 py-1 text-xs font-mono text-muted-foreground mb-6">
-              <span className="relative flex h-2 w-2">
-                <span className="bg-primary absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"></span>
-                <span className="bg-primary relative inline-flex h-2 w-2 rounded-full"></span>
-              </span>
-              <span>Available for opportunities</span>
-            </div>
+            <p className="text-muted-foreground mb-6 font-mono text-xs tracking-[0.08em] uppercase">
+              Terbuka untuk peluang kerja
+            </p>
 
-            <h1 className="text-foreground text-4xl font-bold tracking-[-0.02em] leading-[1.05] sm:text-5xl md:text-6xl">
-              Halo, saya{' '}
-              <span className="bg-gradient-to-r from-foreground via-foreground/90 to-muted-foreground bg-clip-text text-transparent">
-                {name}
+            <h1 className="text-foreground text-4xl leading-[1.05] font-bold tracking-[-0.02em] sm:text-5xl md:text-6xl">
+              <span className="text-muted-foreground block text-xl font-medium tracking-normal sm:text-2xl">
+                Halo, saya
               </span>
+              {name}
             </h1>
 
             <p className="mt-4 font-mono text-base font-medium text-primary sm:text-lg">
@@ -132,7 +128,7 @@ export function HeroSection({ profile, socialLinks = [] }: HeroSectionProps) {
 
           {/* Right Avatar Column */}
           <div className="relative flex-shrink-0">
-            <div className="relative h-48 w-48 sm:h-64 sm:w-64 md:h-72 md:w-72 lg:h-80 lg:w-80 rounded-2xl overflow-hidden border-2 border-border bg-muted shadow-2xl">
+            <div className="relative h-48 w-48 sm:h-64 sm:w-64 md:h-72 md:w-72 lg:h-80 lg:w-80 overflow-hidden rounded-xl border border-border bg-muted">
               {profile?.profile_image ? (
                 <Image
                   src={profile.profile_image}
@@ -143,13 +139,8 @@ export function HeroSection({ profile, socialLinks = [] }: HeroSectionProps) {
                   className="object-cover"
                 />
               ) : (
-                <div className="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-muted to-muted/40 font-mono text-muted-foreground">
-                  <div className="text-5xl font-bold text-foreground/40 mb-2">
-                    {name.charAt(0)}
-                  </div>
-                  <div className="text-xs uppercase tracking-widest opacity-60">
-                    Portfolio
-                  </div>
+                <div className="text-muted-foreground flex h-full w-full items-center justify-center font-mono text-5xl font-bold">
+                  {name.charAt(0)}
                 </div>
               )}
             </div>

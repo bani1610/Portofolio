@@ -73,14 +73,14 @@ export default function DesignPreviewPage() {
             H3 Card Title
           </h3>
           <p className="max-w-[68ch] text-[17px] leading-[1.65] md:text-lg">
-            Body large — dipakai untuk paragraf pembuka. Dibatasi 68ch agar baris tidak
+            Body large, dipakai untuk paragraf pembuka. Dibatasi 68ch agar baris tidak
             terlalu panjang untuk dibaca.
           </p>
           <p className="text-muted-foreground max-w-[68ch] text-[15px] leading-[1.6] md:text-base">
             Body reguler dengan warna muted-foreground untuk teks sekunder.
           </p>
           <p className="text-muted-foreground font-mono text-xs font-medium tracking-[0.08em] uppercase">
-            01 — Mono Label
+            01 / Mono Label
           </p>
         </div>
       </Section>

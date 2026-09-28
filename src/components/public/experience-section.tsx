@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Briefcase } from 'lucide-react';
+import { Reveal } from '@/components/shared/reveal';
 import { Section } from '@/components/layout/section';
 import { SectionHeader } from '@/components/layout/section-header';
 import { Button } from '@/components/ui/button';
@@ -23,7 +24,7 @@ export function ExperienceSection({
   const visible = limit ? experiences.slice(0, limit) : experiences;
 
   return (
-    <Section id="experience" className="border-t border-border/40">
+    <Section id="experience" spacing="base" className="border-border/40 border-t">
       <div className="flex flex-col justify-between sm:flex-row sm:items-end">
         <SectionHeader
           index="03"
@@ -46,7 +47,10 @@ export function ExperienceSection({
       </div>
 
       {visible.length > 0 ? (
-        <div className="relative pl-6 md:pl-8 border-l border-border space-y-12">
+        <Reveal
+          stagger="rows"
+          className="border-border relative space-y-12 border-l pl-6 md:pl-8"
+        >
           {visible.map((item) => {
             const dateText = formatDateRange(
               item.start_date,
@@ -113,14 +117,23 @@ export function ExperienceSection({
               </div>
             );
           })}
-        </div>
+        </Reveal>
       ) : (
         <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border p-12 text-center">
-          <Briefcase className="h-10 w-10 text-muted-foreground/60 mb-3" />
-          <h3 className="text-base font-semibold text-foreground">Pengalaman sedang disiapkan</h3>
-          <p className="mt-1 text-sm text-muted-foreground max-w-[42ch]">
-            Entri pengalaman saat ini tersimpan sebagai draft di database dan siap di-publish melalui admin panel.
+          <Briefcase
+            className="text-muted-foreground/60 mb-3 h-10 w-10"
+            aria-hidden="true"
+          />
+          <h3 className="text-foreground text-base font-semibold">
+            Belum ada pengalaman yang ditampilkan
+          </h3>
+          <p className="text-muted-foreground mt-1 max-w-[42ch] text-sm">
+            Riwayat lengkap tersedia di CV saya, atau hubungi saya langsung
+            untuk berdiskusi.
           </p>
+          <Button asChild variant="outline" size="sm" className="mt-4">
+            <Link href="/contact">Hubungi saya</Link>
+          </Button>
         </div>
       )}
 

@@ -5,7 +5,7 @@ import { SkillsSection } from '@/components/public/skills-section';
 import { getVisibleTechnologies } from '@/lib/queries';
 
 export const metadata: Metadata = {
-  title: 'Skills — Sholahuddin Robbani',
+  title: 'Skills · Sholahuddin Robbani',
   description:
     'Daftar teknologi, bahasa pemrograman, framework, dan tools yang saya kuasai.',
 };

@@ -4,7 +4,7 @@ import { ContactSection } from '@/components/public/contact-section';
 import { getProfile } from '@/lib/queries';
 
 export const metadata: Metadata = {
-  title: 'Contact — Sholahuddin Robbani',
+  title: 'Contact · Sholahuddin Robbani',
   description:
     'Hubungi Sholahuddin Robbani untuk kolaborasi, proyek rekayasa web, atau peluang kerja.',
 };

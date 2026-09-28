@@ -5,7 +5,7 @@ import { ProjectsFilter } from '@/components/public/projects-filter';
 import { getPublishedProjects } from '@/lib/queries';
 
 export const metadata: Metadata = {
-  title: 'Projects — Sholahuddin Robbani',
+  title: 'Projects · Sholahuddin Robbani',
   description:
     'Koleksi proyek perangkat lunak, sistem web, dan aplikasi yang pernah saya rancang dan kembangkan.',
 };

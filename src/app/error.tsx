@@ -21,7 +21,7 @@ export default function GlobalError({
     <div className="flex min-h-[70vh] flex-col items-center justify-center text-center">
       <Container width="prose">
         <p className="font-mono text-xs font-semibold uppercase tracking-[0.08em] text-destructive">
-          500 — ERROR
+          500 · ERROR
         </p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
           Terjadi Kesalahan

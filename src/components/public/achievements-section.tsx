@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { ExternalLink, Trophy } from 'lucide-react';
+import { Reveal } from '@/components/shared/reveal';
 import { Section } from '@/components/layout/section';
 import { SectionHeader } from '@/components/layout/section-header';
 import { Card } from '@/components/ui/card';
@@ -21,7 +22,7 @@ export function AchievementsSection({ achievements }: AchievementsSectionProps) 
   if (achievements.length < 2) return null;
 
   return (
-    <Section id="achievements" className="border-border/40 border-t">
+    <Section id="achievements" spacing="tight">
       <SectionHeader
         index="07"
         label="ACHIEVEMENTS"
@@ -29,7 +30,10 @@ export function AchievementsSection({ achievements }: AchievementsSectionProps) 
         description="Kompetisi, penghargaan, dan pencapaian lain di luar pekerjaan formal."
       />
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <Reveal
+        stagger="cards"
+        className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+      >
         {achievements.map((item) => {
           const dateText = formatMonthYear(item.date);
 
@@ -94,7 +98,7 @@ export function AchievementsSection({ achievements }: AchievementsSectionProps) 
             </Card>
           );
         })}
-      </div>
+      </Reveal>
     </Section>
   );
 }

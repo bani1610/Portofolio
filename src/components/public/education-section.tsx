@@ -21,7 +21,7 @@ export function EducationSection({
   if (education.length === 0 && showHeader) return null;
 
   return (
-    <Section id="education" className="border-t border-border/40">
+    <Section id="education" spacing="tight">
       {showHeader && (
         <SectionHeader
           index="06"
@@ -33,13 +33,15 @@ export function EducationSection({
 
       {education.length === 0 && (
         <div className="border-border flex flex-col items-center justify-center rounded-xl border border-dashed p-12 text-center">
-          <GraduationCap className="text-muted-foreground/60 mb-3 h-10 w-10" />
+          <GraduationCap
+            className="text-muted-foreground/60 mb-3 h-10 w-10"
+            aria-hidden="true"
+          />
           <h3 className="text-foreground text-base font-semibold">
-            Riwayat pendidikan sedang disiapkan
+            Belum ada riwayat pendidikan yang ditampilkan
           </h3>
           <p className="text-muted-foreground mt-1 max-w-[42ch] text-sm">
-            Entri pendidikan tersimpan sebagai draft dan akan tampil setelah
-            di-publish melalui admin panel.
+            Informasi ini tersedia di CV saya.
           </p>
         </div>
       )}

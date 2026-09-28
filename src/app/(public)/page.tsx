@@ -55,28 +55,26 @@ export default async function HomePage() {
           element and must be readable in the first frame (DESIGN.md 9). */}
       <HeroSection profile={profile} socialLinks={socialLinks} />
 
+      {/* Only the sections without their own internal stagger are wrapped
+          here. Projects, Experience, Skills, Certificates and Achievements
+          reveal their own items, and nesting a second observer around them
+          would delay the inner one behind the outer fade. */}
       <Reveal>
         <AboutSection profile={profile} education={education} />
       </Reveal>
-      <Reveal>
-        <FeaturedProjectsSection projects={displayProjects} limit={3} />
-      </Reveal>
-      <Reveal>
-        <ExperienceSection experiences={experiences} limit={3} />
-      </Reveal>
-      <Reveal>
-        <SkillsSection technologies={technologies} />
-      </Reveal>
-      <Reveal>
-        <CertificatesSection certificates={certificates} limit={3} />
-      </Reveal>
+
+      <FeaturedProjectsSection projects={displayProjects} limit={3} />
+      <ExperienceSection experiences={experiences} limit={3} />
+      <SkillsSection technologies={technologies} />
+      <CertificatesSection certificates={certificates} limit={3} />
+
       <Reveal>
         <EducationSection education={education} />
       </Reveal>
-      <Reveal>
-        {/* Renders itself only from two items up (PRD 16). */}
-        <AchievementsSection achievements={achievements} />
-      </Reveal>
+
+      {/* Renders itself only from two items up (PRD 16). */}
+      <AchievementsSection achievements={achievements} />
+
       <Reveal>
         <ContactSection profile={profile} />
       </Reveal>

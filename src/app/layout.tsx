@@ -19,7 +19,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Sholahuddin Robbani — Web Developer',
+  title: 'Sholahuddin Robbani · Web Developer',
   description:
     'Portfolio Sholahuddin Robbani, Web Developer yang berfokus pada pengembangan aplikasi web.',
 };

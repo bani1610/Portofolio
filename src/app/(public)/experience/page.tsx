@@ -5,7 +5,7 @@ import { ExperienceSection } from '@/components/public/experience-section';
 import { getPublishedExperiences } from '@/lib/queries';
 
 export const metadata: Metadata = {
-  title: 'Experience — Sholahuddin Robbani',
+  title: 'Experience · Sholahuddin Robbani',
   description:
     'Riwayat perjalanan karier, pengalaman kerja, magang, dan proyek rekayasa perangkat lunak.',
 };

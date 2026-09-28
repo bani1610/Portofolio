@@ -13,7 +13,7 @@ export default function AdminUnauthorizedPage() {
         </div>
 
         <p className="font-mono text-xs uppercase tracking-wider text-destructive font-semibold">
-          403 — AKSES DITOLAK
+          403 · AKSES DITOLAK
         </p>
 
         <h1 className="mt-2 text-2xl font-bold tracking-tight text-foreground">

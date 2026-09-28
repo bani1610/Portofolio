@@ -1,9 +1,10 @@
 # DESIGN — Personal Portfolio Website
 
-**Version:** 1.0
+**Version:** 1.2
 **Companion to:** [PRD.md](PRD.md)
 **Owner:** Sholahuddin Robbani
 **Scope:** Design system, visual language, dan spesifikasi komponen untuk public website + admin dashboard.
+**Dial:** ENERGY 2 / RHYTHM 3 / MOTION 2
 
 Dokumen ini menerjemahkan arahan UI/UX pada PRD §33–§35 menjadi token, aturan, dan spesifikasi komponen yang bisa langsung diimplementasikan. Setiap nilai di sini adalah **keputusan**, bukan saran — jika implementasi butuh nilai lain, ubah dokumen ini terlebih dahulu agar tidak ada dua sumber kebenaran.
 
@@ -195,11 +196,33 @@ Halaman detail project dan halaman berbasis teks memakai container yang lebih se
 
 ### 4.3 Ritme vertikal antar section
 
+Padding dasar, dipakai oleh mayoritas section:
+
 | Breakpoint | Padding vertikal section |
 |---|---|
 | Mobile | 64px |
 | Tablet | 80px |
 | Desktop | 96px |
+
+**Revisi 1.2 - ritme bervariasi.** Versi awal memakai satu nilai padding
+untuk semua section. Hasilnya delapan section homepage dengan komposisi
+identik: garis atas tipis, padding sama, header kiri, lalu grid. Satu-satunya
+perbedaan antar section hanyalah jumlah kolom grid, dan halaman terbaca
+sebagai satu strip datar yang panjang.
+
+Karena itu section kini punya tiga takaran, dipilih berdasarkan bobotnya
+dalam narasi halaman:
+
+| Takaran | Padding (mobile/tablet/desktop) | Dipakai untuk |
+|---|---|---|
+| `tight` | 48 / 56 / 64px | Section pendukung: Education, Achievements |
+| `base` | 64 / 80 / 96px | Mayoritas section |
+| `loose` | 80 / 96 / 128px | Titik henti: Projects, Contact |
+
+Yang berubah adalah jarak antar section, bukan jarak di dalamnya. Ritme
+internal (label ke heading, heading ke konten) tetap seragam di semua
+section, sehingga variasi terbaca sebagai struktur, bukan sebagai
+inkonsistensi.
 
 Jarak di dalam section:
 
@@ -435,13 +458,52 @@ Submit      : primary md, full-width di mobile
 Pola berulang untuk setiap section di homepage:
 
 ```text
-01 — PROJECTS              ← mono 12px, uppercase, tracking 0.08em, muted
+01 / PROJECTS              ← mono 12px, uppercase, tracking 0.08em
 Featured Work              ← H2
 Beberapa project terpilih  ← body, muted-foreground, max 60ch
 yang saya kerjakan.
 ```
 
 Penomoran mono memberi kesan terstruktur dan membantu orientasi saat scroll panjang.
+
+**Revisi 1.2 - pemisah.** Em dash diganti garis miring. Alasannya bukan
+estetika: em dash adalah penanda teks yang dihasilkan mesin, dan dokumen
+ini dipakai untuk membangun portfolio seorang developer yang justru harus
+terbaca sebagai karya manusia.
+
+Nomor dan label dipisah menjadi dua elemen dengan bobot berbeda: nomor
+memakai `primary`, label memakai `muted-foreground`. Ini yang membuat
+penomoran terbaca sebagai motif, bukan sekadar teks berawalan angka.
+
+### 7.11 Motif identitas
+
+Satu gestur yang diulang di seluruh halaman, sehingga desain ini menjadi
+milik portfolio ini dan bukan milik template mana pun.
+
+**Motifnya adalah penomoran section.** Bahan ini sudah ada sejak versi
+pertama tetapi hanya berfungsi sebagai penanda urutan. Versi ini
+mengangkatnya menjadi elemen struktural:
+
+```text
+┌─ 01 / PROJECTS          ← nomor primary, label muted
+│
+│  Featured Work
+│
+│  [card] [card] [card]
+```
+
+Aturan:
+
+* Nomor memakai `primary`, dua digit, mono 12px.
+* Garis vertikal 1px `border` menurun dari nomor, tinggi 24px, hanya pada
+  layar ≥768px. Pada mobile garis dihilangkan karena ruang horizontalnya
+  tidak cukup dan justru menambah kebisingan.
+* Pemisah `/` memakai `muted-foreground` pada 40% opacity.
+
+Kenapa penomoran, bukan ornamen baru: ia sudah melekat pada struktur
+halaman, tidak menambah elemen dekoratif, dan tidak memerlukan aset.
+Menambah motif berupa bentuk atau ilustrasi justru akan melanggar prinsip
+§1.2 (yang menghias halaman adalah konten nyata).
 
 ### 7.10 Footer
 
@@ -551,10 +613,28 @@ Animasi yang diizinkan (PRD §35):
 
 Aturan keras:
 
-* Hanya `opacity` dan `transform` yang dianimasikan — properti lain memicu layout/paint dan merusak metrik INP.
+* Hanya `opacity` dan `transform` yang dianimasikan. Properti lain memicu layout/paint dan merusak metrik INP.
 * Reveal berjalan sekali; animasi yang berulang saat scroll naik-turun membuat halaman terasa gelisah.
-* Tidak ada animasi di atas 400ms. Tidak ada parallax. Tidak ada animasi loading teks/typewriter pada hero — menunda pembacaan informasi terpenting.
+* Tidak ada animasi di atas 400ms. Tidak ada parallax. Tidak ada animasi loading teks/typewriter pada hero, karena menunda pembacaan informasi terpenting.
 * Konten hero **tidak** dianimasikan masuk; harus sudah terbaca pada frame pertama demi LCP.
+* **Tidak ada animasi yang berulang tanpa henti.** Titik berkedip, elemen
+  melayang, dan pulsa tanpa akhir bersaing dengan konten untuk mendapat
+  perhatian dan tidak pernah berhenti. Indikator berdenyut hanya sah bila
+  menandai state yang benar-benar hidup dan berubah.
+
+**Revisi 1.2 - stagger.** Stagger 60ms untuk timeline sudah tertulis sejak
+versi pertama tetapi tidak pernah diimplementasikan. Versi ini
+memberlakukannya, dan memperluasnya ke grid card:
+
+| Konteks | Stagger | Batas |
+|---|---|---|
+| Timeline experience | 60ms per item | Maksimum 5 item, sisanya muncul bersamaan |
+| Grid card | 50ms per kartu | Maksimum 6 kartu |
+
+Batas itu ada supaya kartu terakhir pada daftar panjang tidak menunggu
+terlalu lama. Dengan 12 kartu tanpa batas, kartu ke-12 baru muncul 600ms
+setelah yang pertama, dan itu terbaca sebagai halaman yang lambat, bukan
+sebagai animasi.
 
 ### Reduced motion
 

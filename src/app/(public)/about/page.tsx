@@ -5,7 +5,7 @@ import { AboutSection } from '@/components/public/about-section';
 import { getProfile, getPublishedEducation } from '@/lib/queries';
 
 export const metadata: Metadata = {
-  title: 'About — Sholahuddin Robbani',
+  title: 'About · Sholahuddin Robbani',
   description:
     'Latar belakang, fokus keahlian, dan cara saya bekerja sebagai Web Developer.',
 };

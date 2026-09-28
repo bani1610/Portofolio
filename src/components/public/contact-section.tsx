@@ -12,7 +12,7 @@ type ContactSectionProps = {
 
 export function ContactSection({ profile, as }: ContactSectionProps) {
   return (
-    <Section id="contact" className="border-t border-border/40">
+    <Section id="contact" spacing="loose" className="border-border/40 border-t">
       <SectionHeader
         as={as}
         index="08"

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ExternalLink, Award, ArrowRight } from 'lucide-react';
+import { Reveal } from '@/components/shared/reveal';
 import { Section } from '@/components/layout/section';
 import { SectionHeader } from '@/components/layout/section-header';
 import { Card } from '@/components/ui/card';
@@ -25,7 +26,7 @@ export function CertificatesSection({
   const visible = limit ? certificates.slice(0, limit) : certificates;
 
   return (
-    <Section id="certificates" className="border-t border-border/40">
+    <Section id="certificates" spacing="base" className="border-border/40 border-t">
       <div className="flex flex-col justify-between sm:flex-row sm:items-end">
         <SectionHeader
           index="05"
@@ -47,7 +48,10 @@ export function CertificatesSection({
         )}
       </div>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <Reveal
+        stagger="cards"
+        className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+      >
         {visible.map((cert) => {
           const targetUrl = cert.credential_url || cert.certificate_file;
           const issueDateFormatted = formatMonthYear(cert.issue_date);
@@ -108,7 +112,7 @@ export function CertificatesSection({
             </Card>
           );
         })}
-      </div>
+      </Reveal>
 
       {showAllLink && certificates.length > 3 && (
         <div className="mt-8 text-center sm:hidden">

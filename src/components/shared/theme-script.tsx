@@ -14,7 +14,7 @@ const script = `
 (function () {
   try {
     var stored = localStorage.getItem('${THEME_STORAGE_KEY}');
-    // No stored preference means dark (PRD 34) — the OS setting is
+    // No stored preference means dark (PRD 34). The OS setting is
     // followed only when the visitor has explicitly chosen 'system'.
     var isLight =
       stored === 'light' ||

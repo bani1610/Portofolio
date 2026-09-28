@@ -4,18 +4,31 @@ import { Container } from './container';
 type SectionProps = {
   id?: string;
   width?: 'default' | 'prose';
+  /**
+   * Vertical weight of the section (DESIGN.md 4.3). Not decoration: it is
+   * how the page gets a rhythm instead of reading as one flat strip. A
+   * supporting section sits tighter, a resting point breathes wider.
+   */
+  spacing?: 'tight' | 'base' | 'loose';
   className?: string;
   children: React.ReactNode;
 };
 
-/**
- * One vertical rhythm for every section (DESIGN.md §4.3): 64/80/96px.
- * Setting this once here is what keeps the spacing consistent across
- * pages rather than relying on each page to remember it.
- */
-export function Section({ id, width, className, children }: SectionProps) {
+const SPACING = {
+  tight: 'py-12 md:py-14 lg:py-16',
+  base: 'py-16 md:py-20 lg:py-24',
+  loose: 'py-20 md:py-24 lg:py-32',
+} as const;
+
+export function Section({
+  id,
+  width,
+  spacing = 'base',
+  className,
+  children,
+}: SectionProps) {
   return (
-    <section id={id} className={cn('py-16 md:py-20 lg:py-24', className)}>
+    <section id={id} className={cn(SPACING[spacing], className)}>
       <Container width={width}>{children}</Container>
     </section>
   );

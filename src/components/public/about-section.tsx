@@ -18,7 +18,7 @@ export function AboutSection({
   const latestEdu = education[0];
 
   return (
-    <Section id="about" className="border-t border-border/40">
+    <Section id="about" spacing="base" className="border-border/40 border-t">
       {showHeader && (
         <SectionHeader
           index="01"
