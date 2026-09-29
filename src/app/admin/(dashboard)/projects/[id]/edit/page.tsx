@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { requireAdmin } from '@/lib/supabase/admin-guard';
-import { AdminPageHeader } from '@/components/admin/admin-page-header';
+import { FormPage } from '@/components/admin/form-page';
 import { ProjectForm } from '@/components/admin/project-form';
 import { updateProject } from '@/lib/actions/projects';
 
@@ -27,17 +27,16 @@ export default async function EditProjectPage({ params }: EditProjectPageProps) 
   const action = updateProject.bind(null, project.id, project.slug);
 
   return (
-    <div className="space-y-6">
-      <AdminPageHeader
-        title="Ubah Project"
-        description={project.title}
-      />
+    <FormPage
+      title="Ubah Project"
+      description={project.title}
+    >
       <ProjectForm
         action={action}
         technologies={technologies ?? []}
         project={project}
         selectedTechnologyIds={(links ?? []).map((link) => link.technology_id)}
       />
-    </div>
+    </FormPage>
   );
 }

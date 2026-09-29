@@ -11,6 +11,15 @@ type FormShellProps = {
   action: (formData: FormData) => Promise<ActionResult>;
   cancelHref: string;
   submitLabel?: string;
+  /**
+   * Told whenever the form gains or loses unsaved edits.
+   *
+   * In a modal, `beforeunload` never fires: closing the dialog unmounts the
+   * form without unloading the page, so the warning below would not run and
+   * a filled-in form would vanish on Escape. The modal subscribes here to
+   * guard its own close.
+   */
+  onDirtyChange?: (dirty: boolean) => void;
   children: React.ReactNode;
 };
 
@@ -25,6 +34,7 @@ export function FormShell({
   action,
   cancelHref,
   submitLabel = 'Simpan',
+  onDirtyChange,
   children,
 }: FormShellProps) {
   const [pending, startTransition] = React.useTransition();
@@ -82,11 +92,12 @@ export function FormShell({
    * button is the kind of loss that makes a CMS feel unsafe to use.
    */
   React.useEffect(() => {
+    onDirtyChange?.(dirty);
     if (!dirty) return;
     const onBeforeUnload = (event: BeforeUnloadEvent) => event.preventDefault();
     window.addEventListener('beforeunload', onBeforeUnload);
     return () => window.removeEventListener('beforeunload', onBeforeUnload);
-  }, [dirty]);
+  }, [dirty, onDirtyChange]);
 
   return (
     <FormErrorContext.Provider value={errors}>
@@ -94,7 +105,7 @@ export function FormShell({
         ref={formRef}
         onSubmit={handleSubmit}
         onInput={() => setDirty(true)}
-        className="w-full max-w-[720px]"
+        className="w-full"
         noValidate
       >
         <fieldset disabled={pending} className="space-y-5 md:space-y-6">
@@ -109,6 +120,9 @@ export function FormShell({
 
           It spans the form column exactly, so nothing scrolls past its
           edges, and it needs no negative margin to line up.
+
+          bg-background is also the dialog's own surface, so the same bar
+          reads as part of the form in a modal as well as on a page.
         */}
         <div className="bg-background border-border sticky bottom-0 z-20 mt-5 flex flex-col-reverse gap-3 border-t py-3 md:mt-6 md:flex-row md:items-center md:justify-between md:py-4">
           <p

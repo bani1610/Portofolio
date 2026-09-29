@@ -1,7 +1,13 @@
 'use client';
 
 import { FormShell } from './form-shell';
-import { TextField, TextAreaField, SwitchField, FormSection } from './form-field';
+import {
+  TextField,
+  TextAreaField,
+  SwitchField,
+  FormSection,
+  FieldRow,
+} from './form-field';
 import type { ActionResult } from '@/lib/actions/types';
 import type { Tables } from '@/lib/supabase/types';
 
@@ -22,10 +28,10 @@ export function ExperienceForm({ action, item }: ExperienceFormProps) {
       </FormSection>
 
       <FormSection title="Periode">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <FieldRow>
           <TextField name="start_date" label="Tanggal Mulai" type="date" required defaultValue={item?.start_date} />
           <TextField name="end_date" label="Tanggal Selesai" type="date" defaultValue={item?.end_date} helper="Kosongkan jika masih berjalan." />
-        </div>
+        </FieldRow>
         <SwitchField name="current" label="Masih Berjalan" description={'Menampilkan "Present" sebagai pengganti tanggal selesai.'} defaultChecked={item?.current} />
       </FormSection>
 

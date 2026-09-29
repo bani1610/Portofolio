@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { requireAdmin } from '@/lib/supabase/admin-guard';
-import { AdminPageHeader } from '@/components/admin/admin-page-header';
+import { FormPage } from '@/components/admin/form-page';
 import { EducationForm } from '@/components/admin/education-form';
 import { updateEducation } from '@/lib/actions/entities';
 
@@ -21,9 +21,8 @@ export default async function EditEducationPage({ params }: PageProps) {
   if (!item) notFound();
 
   return (
-    <div className="space-y-6">
-      <AdminPageHeader title="Ubah pendidikan" description={item.institution} />
+    <FormPage title="Ubah pendidikan" description={item.institution}>
       <EducationForm action={updateEducation.bind(null, item.id)} item={item} />
-    </div>
+    </FormPage>
   );
 }

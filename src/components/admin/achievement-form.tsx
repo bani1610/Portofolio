@@ -7,12 +7,14 @@ import type { Tables } from '@/lib/supabase/types';
 
 type AchievementFormProps = {
   action: (formData: FormData) => Promise<ActionResult>;
+  /** Set when the form is shown in a modal, so it can guard its close. */
+  onDirtyChange?: (dirty: boolean) => void;
   item?: Tables<'achievements'>;
 };
 
-export function AchievementForm({ action, item }: AchievementFormProps) {
+export function AchievementForm({ action, item, onDirtyChange }: AchievementFormProps) {
   return (
-    <FormShell action={action} cancelHref="/admin/achievements">
+    <FormShell action={action} cancelHref="/admin/achievements" onDirtyChange={onDirtyChange}>
       <FormSection title="Pencapaian">
         <TextField name="title" label="Judul" required defaultValue={item?.title} />
         <TextField name="organization" label="Penyelenggara" defaultValue={item?.organization} />

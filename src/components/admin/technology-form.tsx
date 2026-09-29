@@ -7,6 +7,8 @@ import type { Tables } from '@/lib/supabase/types';
 
 type TechnologyFormProps = {
   action: (formData: FormData) => Promise<ActionResult>;
+  /** Set when the form is shown in a modal, so it can guard its close. */
+  onDirtyChange?: (dirty: boolean) => void;
   item?: Tables<'technologies'>;
 };
 
@@ -17,9 +19,9 @@ const CATEGORIES = [
   { value: 'tools', label: 'Tools & DevOps' },
 ] as const;
 
-export function TechnologyForm({ action, item }: TechnologyFormProps) {
+export function TechnologyForm({ action, item, onDirtyChange }: TechnologyFormProps) {
   return (
-    <FormShell action={action} cancelHref="/admin/skills">
+    <FormShell action={action} cancelHref="/admin/skills" onDirtyChange={onDirtyChange}>
       <FormSection title="Teknologi">
         <TextField name="name" label="Nama" required defaultValue={item?.name} placeholder="React" />
         <SelectField name="category" label="Kategori" required options={CATEGORIES} defaultValue={item?.category} />

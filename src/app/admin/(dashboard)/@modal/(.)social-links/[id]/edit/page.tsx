@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { requireAdmin } from '@/lib/supabase/admin-guard';
-import { FormPage } from '@/components/admin/form-page';
+import { FormModal } from '@/components/admin/form-modal';
 import { SocialLinkForm } from '@/components/admin/social-link-form';
 import { updateSocialLink } from '@/lib/actions/entities';
 
@@ -8,7 +8,7 @@ export const instant = false;
 
 type PageProps = { params: Promise<{ id: string }> };
 
-export default async function EditSocialLinkPage({ params }: PageProps) {
+export default async function EditSocialLinkModal({ params }: PageProps) {
   const { id } = await params;
   const { supabase } = await requireAdmin();
 
@@ -21,8 +21,14 @@ export default async function EditSocialLinkPage({ params }: PageProps) {
   if (!item) notFound();
 
   return (
-    <FormPage title="Ubah tautan" description={item.platform}>
-      <SocialLinkForm action={updateSocialLink.bind(null, item.id)} item={item} />
-    </FormPage>
+    <FormModal title="Ubah tautan" description={item.platform}>
+      {({ onDirtyChange }) => (
+        <SocialLinkForm
+          action={updateSocialLink.bind(null, item.id)}
+          item={item}
+          onDirtyChange={onDirtyChange}
+        />
+      )}
+    </FormModal>
   );
 }

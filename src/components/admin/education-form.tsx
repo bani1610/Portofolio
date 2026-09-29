@@ -1,7 +1,13 @@
 'use client';
 
 import { FormShell } from './form-shell';
-import { TextField, TextAreaField, SwitchField, FormSection } from './form-field';
+import {
+  TextField,
+  TextAreaField,
+  SwitchField,
+  FormSection,
+  FieldRow,
+} from './form-field';
 import type { ActionResult } from '@/lib/actions/types';
 import type { Tables } from '@/lib/supabase/types';
 
@@ -21,10 +27,10 @@ export function EducationForm({ action, item }: EducationFormProps) {
       </FormSection>
 
       <FormSection title="Periode">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <FieldRow>
           <TextField name="start_date" label="Tanggal Mulai" type="date" defaultValue={item?.start_date} />
           <TextField name="end_date" label="Tanggal Selesai" type="date" defaultValue={item?.end_date} helper="Kosongkan jika masih berjalan." />
-        </div>
+        </FieldRow>
         <TextAreaField name="description" label="Deskripsi" rows={4} defaultValue={item?.description} />
       </FormSection>
 

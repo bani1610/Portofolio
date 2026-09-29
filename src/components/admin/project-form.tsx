@@ -7,6 +7,7 @@ import {
   SelectField,
   SwitchField,
   FormSection,
+  FieldRow,
 } from './form-field';
 import { SlugField } from './slug-field';
 import { FeaturesField } from './features-field';
@@ -81,10 +82,10 @@ export function ProjectForm({
         <TextField name="github_url" label="URL GitHub" type="url" defaultValue={project?.github_url} />
         <TextField name="demo_url" label="URL Demo" type="url" defaultValue={project?.demo_url} />
         <TextField name="cover_image" label="URL Gambar Sampul" defaultValue={project?.cover_image} helper="Rasio 16:9 memberi hasil terbaik." />
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <FieldRow>
           <TextField name="start_date" label="Tanggal Mulai" type="date" defaultValue={project?.start_date} />
           <TextField name="end_date" label="Tanggal Selesai" type="date" defaultValue={project?.end_date} />
-        </div>
+        </FieldRow>
       </FormSection>
 
       <FormSection title="Publikasi">

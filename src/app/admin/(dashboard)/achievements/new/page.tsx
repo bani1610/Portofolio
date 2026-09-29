@@ -1,5 +1,5 @@
 import { requireAdmin } from '@/lib/supabase/admin-guard';
-import { AdminPageHeader } from '@/components/admin/admin-page-header';
+import { FormPage } from '@/components/admin/form-page';
 import { AchievementForm } from '@/components/admin/achievement-form';
 import { createAchievement } from '@/lib/actions/entities';
 
@@ -9,9 +9,8 @@ export default async function NewAchievementPage() {
   await requireAdmin();
 
   return (
-    <div className="space-y-6">
-      <AdminPageHeader title="Tambah Pencapaian" />
+    <FormPage title="Tambah Pencapaian">
       <AchievementForm action={createAchievement} />
-    </div>
+    </FormPage>
   );
 }

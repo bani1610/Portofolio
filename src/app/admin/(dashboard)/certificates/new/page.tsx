@@ -1,5 +1,5 @@
 import { requireAdmin } from '@/lib/supabase/admin-guard';
-import { AdminPageHeader } from '@/components/admin/admin-page-header';
+import { FormPage } from '@/components/admin/form-page';
 import { CertificateForm } from '@/components/admin/certificate-form';
 import { createCertificate } from '@/lib/actions/entities';
 
@@ -9,9 +9,8 @@ export default async function NewCertificatePage() {
   await requireAdmin();
 
   return (
-    <div className="space-y-6">
-      <AdminPageHeader title="Tambah Sertifikat" />
+    <FormPage title="Tambah Sertifikat">
       <CertificateForm action={createCertificate} />
-    </div>
+    </FormPage>
   );
 }

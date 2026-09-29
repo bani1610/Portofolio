@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { requireAdmin } from '@/lib/supabase/admin-guard';
-import { AdminPageHeader } from '@/components/admin/admin-page-header';
+import { FormPage } from '@/components/admin/form-page';
 import { CertificateForm } from '@/components/admin/certificate-form';
 import { updateCertificate } from '@/lib/actions/entities';
 
@@ -21,9 +21,8 @@ export default async function EditCertificatePage({ params }: PageProps) {
   if (!item) notFound();
 
   return (
-    <div className="space-y-6">
-      <AdminPageHeader title="Ubah sertifikat" description={item.title} />
+    <FormPage title="Ubah sertifikat" description={item.title}>
       <CertificateForm action={updateCertificate.bind(null, item.id)} item={item} />
-    </div>
+    </FormPage>
   );
 }

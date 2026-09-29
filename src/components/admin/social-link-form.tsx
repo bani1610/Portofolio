@@ -7,12 +7,14 @@ import type { Tables } from '@/lib/supabase/types';
 
 type SocialLinkFormProps = {
   action: (formData: FormData) => Promise<ActionResult>;
+  /** Set when the form is shown in a modal, so it can guard its close. */
+  onDirtyChange?: (dirty: boolean) => void;
   item?: Tables<'social_links'>;
 };
 
-export function SocialLinkForm({ action, item }: SocialLinkFormProps) {
+export function SocialLinkForm({ action, item, onDirtyChange }: SocialLinkFormProps) {
   return (
-    <FormShell action={action} cancelHref="/admin/social-links">
+    <FormShell action={action} cancelHref="/admin/social-links" onDirtyChange={onDirtyChange}>
       <FormSection title="Tautan">
         <TextField
           name="platform"
