@@ -3,7 +3,7 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { ArrowLeft, Lock, AlertCircle, Loader2 } from 'lucide-react';
+import { ArrowLeft, Lock, AlertCircle, Clock, Loader2 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -13,6 +13,8 @@ import { loginAction } from '@/lib/actions/auth';
 function LoginForm() {
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get('redirectTo') || '/admin';
+  // Set by proxy.ts when it ends a session that sat idle past the window.
+  const timedOut = searchParams.get('reason') === 'idle';
 
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const [isPending, startTransition] = React.useTransition();
@@ -58,6 +60,22 @@ function LoginForm() {
               Masuk untuk mengelola seluruh konten portfolio
             </p>
           </div>
+
+          {/* The timeout notice is not an error: nothing went wrong, the
+              session simply ended. A failed login attempt replaces it, so the
+              two never stack up and compete for attention. */}
+          {timedOut && !errorMessage && (
+            <div
+              role="status"
+              className="border-border bg-muted/50 text-muted-foreground mb-5 flex items-start gap-2.5 rounded-lg border p-3 text-xs"
+            >
+              <Clock className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+              <span>
+                Sesi berakhir karena tidak ada aktivitas selama 30 menit. Silakan
+                masuk lagi untuk melanjutkan.
+              </span>
+            </div>
+          )}
 
           {errorMessage && (
             <div

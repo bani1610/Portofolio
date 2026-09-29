@@ -1,7 +1,9 @@
 'use server';
 
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import { ACTIVITY_COOKIE, activityCookieOptions } from '@/lib/supabase/session-policy';
 
 export type AuthActionResult = {
   success: boolean;
@@ -52,11 +54,27 @@ export async function loginAction(
     };
   }
 
+  /**
+   * Opens the idle window.
+   *
+   * proxy.ts treats a session with no activity cookie as one that has been
+   * idle too long, so without this the redirect below would arrive at /admin
+   * and be signed straight back out: login would appear to do nothing.
+   */
+  const cookieStore = await cookies();
+  cookieStore.set(ACTIVITY_COOKIE, '1', activityCookieOptions());
+
   redirect(redirectTo);
 }
 
 export async function logoutAction(): Promise<void> {
   const supabase = await createClient();
   await supabase.auth.signOut();
+
+  // Cleared alongside the session: a stale activity cookie would otherwise
+  // hand the next login a window it did not earn.
+  const cookieStore = await cookies();
+  cookieStore.delete(ACTIVITY_COOKIE);
+
   redirect('/admin/login');
 }
